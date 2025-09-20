@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_REPO = 'kastrov/techsolutions-app'
+        DOCKER_HUB_REPO = 'minnudocker786/techsolutions-app'
         K8S_CLUSTER_NAME = 'kastro-cluster'
-        AWS_REGION = 'us-east-1'
+        AWS_REGION = 'ap-south-1'
         NAMESPACE = 'default'
         APP_NAME = 'techsolutions'
     }
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 echo 'Pushing Docker image to DockerHub...'
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
                         sh "echo \${DOCKER_PASSWORD} | docker login -u \${DOCKER_USERNAME} --password-stdin"
                         sh "docker push ${DOCKER_HUB_REPO}:${env.IMAGE_TAG}"
                         sh "docker push ${DOCKER_HUB_REPO}:latest"
